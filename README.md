@@ -1,4 +1,4 @@
-# Blood Bank
+# BMI Calculator
 
 ![alt text](image-2.png)
 ![alt text](image-3.png)
@@ -20,31 +20,37 @@ Unit conversions (kg/lb, cm or ft+in), WHO categories (incl. Class I–III), hea
 ## ✨ Features
 
 -   Units:
-    – Weight: kg / lb
-    – Height: cm or ft + in (with inch clamped 0–11.9)
+
+    -   Weight: kg / lb
+    -   Height: cm or ft + in (with inch clamped 0–11.9)
 
 -   Validation & UX:
-    – Tight ranges: weight 20–300 kg, height 100–250 cm or 3–8 ft
-    – Clear error messaging + helper text
-    – Reset action
+
+    -   Tight ranges: weight 20–300 kg, height 100–250 cm or 3–8 ft
+    -   Clear error messaging + helper text
+    -   Reset action
 
 -   Results:
-    – BMI with two-decimal precision
-    – WHO categories: Underweight, Healthy, Overweight, Obesity (Class I/II/III)
-    – Healthy weight range for the given height in the selected weight unit
+
+    -   BMI with two-decimal precision
+    -   WHO categories: Underweight, Healthy, Overweight, Obesity (Class I/II/III)
+    -   Healthy weight range for the given height in the selected weight unit
 
 -   History & Export:
-    – Auto-saves each calculation (localStorage)
-    – Per-row delete + Clear all
-    – CSV export with headers
+
+    -   Auto-saves each calculation (localStorage)
+    -   Per-row delete + Clear all
+    -   CSV export with headers
 
 -   Internationalization (i18n):
-    – English 🇺🇸 / Hindi 🇮🇳 via Tolgee
-    – Language persisted; instant UI switch
+
+    -   English 🇺🇸 / Hindi 🇮🇳 via Tolgee
+    -   Language persisted; instant UI switch
 
 -   Theming:
-    – Light/Dark toggle stored in localStorage
-    – Colors via CSS vars in index.css (--bg, --text, --card, …)
+
+    -   Light/Dark toggle stored in localStorage
+    -   Colors via CSS vars in index.css (--bg, --text, --card, …)
 
 ## 🧱 Tech Stack
 
