@@ -1,81 +1,42 @@
 # BMI Calculator
 
-![alt text](image-2.png)
-![alt text](image-3.png)
+A React and Vite BMI calculator with unit conversion, clear health categories, saved history, CSV export, and English/Hindi language support.
 
--   **Live:** https://a2rp.github.io/bmi-calculator/
--   **Repo:** https://github.com/a2rp/bmi-calculator
+![BMI Calculator preview](screenshot.png)
 
-Advanced BMI calculator built with React + styled-components.
-Unit conversions (kg/lb, cm or ft+in), WHO categories (incl. Class I–III), healthy weight range in selected units, i18n (EN/HI), history with localStorage, and CSV export. Vite-powered & GH Pages–ready.
+## Features
 
--   Language switcher (Tolgee v5)
--   Accessible form (labels, aria states, live results)
--   Local history (add/delete/clear, capped to last 20)
--   CSV export (clean, Excel/Sheets-friendly)
--   Router (BrowserRouter) with SPA fallback
--   All styles scoped via styled.js pattern (export const Styled = { Wrapper: styled.div`` })
--   Light/Dark via CSS variables (:root[data-theme]) — no Tailwind
+- kg/lb weight and cm/ft + in height units
+- BMI result, category, and healthy weight range
+- Input validation with accessible error messages
+- Local calculation history with delete and clear actions
+- CSV export
+- Light/dark theme and English/Hindi switcher
+- Lazy-loaded routes with a pathname-keyed loading state
 
-## ✨ Features
-
--   Units:
-
-    -   Weight: kg / lb
-    -   Height: cm or ft + in (with inch clamped 0–11.9)
-
--   Validation & UX:
-
-    -   Tight ranges: weight 20–300 kg, height 100–250 cm or 3–8 ft
-    -   Clear error messaging + helper text
-    -   Reset action
-
--   Results:
-
-    -   BMI with two-decimal precision
-    -   WHO categories: Underweight, Healthy, Overweight, Obesity (Class I/II/III)
-    -   Healthy weight range for the given height in the selected weight unit
-
--   History & Export:
-
-    -   Auto-saves each calculation (localStorage)
-    -   Per-row delete + Clear all
-    -   CSV export with headers
-
--   Internationalization (i18n):
-
-    -   English 🇺🇸 / Hindi 🇮🇳 via Tolgee
-    -   Language persisted; instant UI switch
-
--   Theming:
-
-    -   Light/Dark toggle stored in localStorage
-    -   Colors via CSS vars in index.css (--bg, --text, --card, …)
-
-## 🧱 Tech Stack
-
--   React (Vite)
--   styled-components
--   react-router-dom (BrowserRouter)
--   @tolgee/react (i18n)
--   localStorage-backed “API” layer
-
-## 🚀 Getting Started
+## Run locally
 
 ```bash
-# clone
-git clone https://github.com/a2rp/bmi-calculator
-cd bmi-calculator
-
-# install
-npm i
-
-# dev
+npm install
 npm run dev
-
-# build
-npm run build
-
-# preview production build
-npm run preview
 ```
+
+Build with `npm run build` and deploy to GitHub Pages with `npm run deploy`.
+
+## Links
+
+- Live: https://a2rp.github.io/bmi-calculator/
+- Repository: https://github.com/a2rp/bmi-calculator
+- Portfolio: https://www.ashishranjan.net/
+- GitHub: https://github.com/a2rp
+- CodePen: https://codepen.io/ash1198
+- LinkedIn: https://www.linkedin.com/in/aashishranjan
+- Facebook: https://www.facebook.com/theash.ashish/
+- YouTube: https://www.youtube.com/@ashishranjan-ashz?sub_confirmation=1
+- Email: mailto:ash.ranjan09@gmail.com
+
+## Support
+
+- Support: https://a2rp-donation-page.netlify.app/
+- Buy Me a Coffee: https://buymeacoffee.com/a2rp
+- Patreon: https://www.patreon.com/a2rp

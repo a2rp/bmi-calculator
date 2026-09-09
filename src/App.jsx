@@ -1,12 +1,14 @@
-import React from 'react';
-import { Routes, Route, NavLink } from 'react-router-dom';
+import React, { lazy, Suspense } from 'react';
+import { Routes, Route, NavLink, useLocation } from 'react-router-dom';
 import { Styled } from './styled';
-import Home from './pages/Home';
-import BMICalculator from './pages/BMICalculator';
 import LangSwitcher from './components/ui/LangSwitcher';
 import { T } from '@tolgee/react';
 
+const Home = lazy(() => import('./pages/Home'));
+const BMICalculator = lazy(() => import('./pages/BMICalculator'));
+
 export default function App({ toggleTheme, theme }) {
+    const location = useLocation();
     return (
         <Styled.Wrapper>
             <Styled.Header>
@@ -30,10 +32,12 @@ export default function App({ toggleTheme, theme }) {
             </Styled.Header>
 
             <Styled.Main>
-                <Routes>
-                    <Route path="/" element={<Home />} />
-                    <Route path="/bmi" element={<BMICalculator />} />
-                </Routes>
+                <Suspense key={location.pathname} fallback={<div role="status">Loading...</div>}>
+                    <Routes location={location}>
+                        <Route path="/" element={<Home />} />
+                        <Route path="/bmi" element={<BMICalculator />} />
+                    </Routes>
+                </Suspense>
             </Styled.Main>
 
             <Styled.Footer>

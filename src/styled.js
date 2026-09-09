@@ -17,6 +17,8 @@ export const Styled = {
         position: sticky;
         top: 0;
         z-index: 10;
+        width: 100%;
+        box-sizing: border-box;
     `,
     Brand: styled.span`
         font-weight: 800;
