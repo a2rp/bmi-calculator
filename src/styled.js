@@ -56,5 +56,10 @@ export const Styled = {
         border-top: 1px solid var(--border);
         background: var(--card);
         text-align: center;
+        display: grid;
+        gap: 10px;
+        color: var(--muted);
+        a { color: var(--text); font-weight: 600; }
+        nav { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px 14px; }
     `,
 };
