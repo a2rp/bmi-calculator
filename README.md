@@ -13,6 +13,12 @@ A React and Vite BMI calculator with unit conversion, clear health categories, s
 - CSV export
 - Light/dark theme and English/Hindi switcher
 - Lazy-loaded routes with a pathname-keyed loading state
+- Responsive fixed navigation with a local project logo
+- Icon-only footer links and a floating go-to-top control
+
+## Tech stack
+
+React, Vite, React Router, Styled Components, Tolgee, and React Icons.
 
 ## Run locally
 
