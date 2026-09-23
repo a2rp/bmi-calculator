@@ -12,7 +12,7 @@ export const tolgee = Tolgee()
                 "nav.home": "Home",
                 "nav.bmi": "BMI",
                 "home.title": "Welcome to HealthPro",
-                "home.sub": "Advanced health tools—BMI, BMR & goals.",
+                "home.sub": "Advanced health tools - BMI, BMR & goals.",
                 "footer.copy": "All rights reserved.",
                 "bmi.title": "BMI Calculator",
                 "bmi.desc":
@@ -32,13 +32,13 @@ export const tolgee = Tolgee()
                 "bmi.ph.height.ft": "e.g., 5",
                 "bmi.ph.height.in": "e.g., 10",
 
-                "bmi.help.weight": "Typical adult weight range: 20–300 kg.",
+                "bmi.help.weight": "Typical adult weight range: 20-300 kg.",
                 "bmi.help.height":
-                    "Typical adult height range: 100–250 cm or 3–8 ft.",
+                    "Typical adult height range: 100-250 cm or 3-8 ft.",
 
                 "bmi.err.positive": "Please enter a positive value.",
                 "bmi.err.range.weight":
-                    "Weight seems out of range (20–300 kg).",
+                    "Weight seems out of range (20-300 kg).",
                 "bmi.err.range.height": "Height seems out of range.",
                 "bmi.err.inches": "Inches must be between 0 and 11.9.",
                 "bmi.err.generic": "Invalid input. Check values and try again.",
@@ -87,7 +87,7 @@ export const tolgee = Tolgee()
                 "nav.home": "होम",
                 "nav.bmi": "बीएमआई",
                 "home.title": "हेल्थप्रो में आपका स्वागत है",
-                "home.sub": "एडवांस्ड हेल्थ टूल्स—BMI, BMR व लक्ष्य।",
+                "home.sub": "एडवांस्ड हेल्थ टूल्स - BMI, BMR व लक्ष्य।",
                 "footer.copy": "सर्वाधिकार सुरक्षित।",
                 "bmi.title": "बीएमआई कैलकुलेटर",
                 "bmi.desc":
@@ -107,12 +107,12 @@ export const tolgee = Tolgee()
                 "bmi.ph.height.ft": "जैसे 5",
                 "bmi.ph.height.in": "जैसे 10",
 
-                "bmi.help.weight": "सामान्य वयस्क वज़न: 20–300 किलो।",
-                "bmi.help.height": "सामान्य वयस्क कद: 100–250 सेमी या 3–8 फुट।",
+                "bmi.help.weight": "सामान्य वयस्क वज़न: 20-300 किलो।",
+                "bmi.help.height": "सामान्य वयस्क कद: 100-250 सेमी या 3-8 फुट।",
 
                 "bmi.err.positive": "कृपया पॉज़िटिव मान दर्ज करें।",
                 "bmi.err.range.weight":
-                    "वज़न सीमाओं से बाहर लगता है (20–300 किलो)।",
+                    "वज़न सीमाओं से बाहर लगता है (20-300 किलो)।",
                 "bmi.err.range.height": "कद सीमाओं से बाहर लगता है।",
                 "bmi.err.inches": "इंच 0 से 11.9 के बीच होना चाहिए।",
                 "bmi.err.generic":

@@ -6,7 +6,7 @@ import { TolgeeProvider } from '@tolgee/react';
 import { tolgee } from './i18n';
 import './index.css';
 
-function Root() {
+export function Root() {
     const [theme, setTheme] = React.useState(() => localStorage.getItem('theme') || 'light');
 
     React.useEffect(() => {

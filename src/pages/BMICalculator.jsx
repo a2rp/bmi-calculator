@@ -470,7 +470,7 @@ export default function BMICalculator() {
                     {range && (
                         <p>
                             <strong><T keyName="bmi.result.healthyRange" />:</strong>{' '}
-                            {range[0]} – {range[1]} {weightUnit.toUpperCase()}
+                            {range[0]} - {range[1]} {weightUnit.toUpperCase()}
                         </p>
                     )}
                     <Help><T keyName="bmi.disclaimer" /></Help>
