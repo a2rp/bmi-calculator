@@ -1,18 +1,32 @@
-import { Tolgee, DevTools, FormatSimple } from "@tolgee/react";
+import { Tolgee, FormatSimple } from "@tolgee/react";
+
+function getSavedLanguage() {
+    try {
+        const language = localStorage.getItem("lang");
+        return ["en", "hi"].includes(language) ? language : "en";
+    } catch {
+        return "en";
+    }
+}
 
 export const tolgee = Tolgee()
-    .use(DevTools())
     .use(FormatSimple())
     .init({
         availableLanguages: ["en", "hi"],
-        language: localStorage.getItem("lang") || "en",
+        language: getSavedLanguage(),
         fallbackLanguage: "en",
         staticData: {
             en: {
                 "nav.home": "Home",
                 "nav.bmi": "BMI",
                 "home.title": "Welcome to HealthPro",
-                "home.sub": "Advanced health tools - BMI, BMR & goals.",
+                "home.sub": "A simple BMI calculator with metric and imperial units, local history, and CSV export.",
+                "home.why": "What you can do",
+                "home.feature.units": "Calculate BMI using kg/cm or lb/ft + in.",
+                "home.feature.range": "See an adult BMI category and a reference weight range.",
+                "home.feature.history": "Keep up to 20 calculations in this browser and export them as CSV.",
+                "home.feature.language": "Use the interface in English or Hindi.",
+                "home.credit": "Created by",
                 "footer.copy": "All rights reserved.",
                 "bmi.title": "BMI Calculator",
                 "bmi.desc":
@@ -21,6 +35,8 @@ export const tolgee = Tolgee()
                 "bmi.label.height": "Height",
                 "bmi.label.weightUnit": "Weight unit",
                 "bmi.label.heightUnit": "Height unit",
+                "bmi.label.heightFeet": "Height in feet",
+                "bmi.label.heightInches": "Height in inches",
 
                 "bmi.unit.kg": "kg",
                 "bmi.unit.lb": "lb",
@@ -32,9 +48,9 @@ export const tolgee = Tolgee()
                 "bmi.ph.height.ft": "e.g., 5",
                 "bmi.ph.height.in": "e.g., 10",
 
-                "bmi.help.weight": "Typical adult weight range: 20-300 kg.",
+                "bmi.help.weight": "Input range: 20-300 kg (about 44-661 lb).",
                 "bmi.help.height":
-                    "Typical adult height range: 100-250 cm or 3-8 ft.",
+                    "Input range: 100-250 cm (about 3 ft 3 in to 8 ft 2 in).",
 
                 "bmi.err.positive": "Please enter a positive value.",
                 "bmi.err.range.weight":
@@ -51,7 +67,7 @@ export const tolgee = Tolgee()
                 "bmi.result.category": "Category",
                 "bmi.result.healthyRange": "Healthy weight range",
                 "bmi.disclaimer":
-                    "This tool is informational and not a medical diagnosis.",
+                    "For adults aged 20 and older. BMI is a screening measure, not a diagnosis; children and teens need age- and sex-specific percentiles.",
 
                 "bmi.cat.underweight": "Underweight",
                 "bmi.cat.normal": "Healthy",
@@ -65,6 +81,7 @@ export const tolgee = Tolgee()
                 "bmi.history.export": "Export CSV",
                 "bmi.history.clear": "Clear history",
                 "bmi.history.delete": "Delete",
+                "bmi.history.storageError": "History could not be saved in this browser. This change will be lost when you leave or reload.",
 
                 "bmi.th.date": "Date",
                 "bmi.th.weight": "Weight",
@@ -87,7 +104,13 @@ export const tolgee = Tolgee()
                 "nav.home": "होम",
                 "nav.bmi": "बीएमआई",
                 "home.title": "हेल्थप्रो में आपका स्वागत है",
-                "home.sub": "एडवांस्ड हेल्थ टूल्स - BMI, BMR व लक्ष्य।",
+                "home.sub": "मीट्रिक और इम्पीरियल इकाइयों, स्थानीय हिस्ट्री और CSV निर्यात वाला BMI कैलकुलेटर।",
+                "home.why": "आप क्या कर सकते हैं",
+                "home.feature.units": "kg/cm या lb/ft + in में BMI निकालें।",
+                "home.feature.range": "वयस्क BMI श्रेणी और संदर्भ वज़न सीमा देखें।",
+                "home.feature.history": "इस ब्राउज़र में 20 तक गणनाएँ रखें और CSV में निर्यात करें।",
+                "home.feature.language": "इंटरफ़ेस अंग्रेज़ी या हिंदी में इस्तेमाल करें।",
+                "home.credit": "निर्माता",
                 "footer.copy": "सर्वाधिकार सुरक्षित।",
                 "bmi.title": "बीएमआई कैलकुलेटर",
                 "bmi.desc":
@@ -96,6 +119,8 @@ export const tolgee = Tolgee()
                 "bmi.label.height": "कद",
                 "bmi.label.weightUnit": "वज़न की इकाई",
                 "bmi.label.heightUnit": "कद की इकाई",
+                "bmi.label.heightFeet": "कद फ़ुट में",
+                "bmi.label.heightInches": "कद इंच में",
 
                 "bmi.unit.kg": "किलो",
                 "bmi.unit.lb": "पाउंड",
@@ -107,8 +132,8 @@ export const tolgee = Tolgee()
                 "bmi.ph.height.ft": "जैसे 5",
                 "bmi.ph.height.in": "जैसे 10",
 
-                "bmi.help.weight": "सामान्य वयस्क वज़न: 20-300 किलो।",
-                "bmi.help.height": "सामान्य वयस्क कद: 100-250 सेमी या 3-8 फुट।",
+                "bmi.help.weight": "इनपुट सीमा: 20-300 किग्रा (लगभग 44-661 पाउंड)।",
+                "bmi.help.height": "इनपुट सीमा: 100-250 सेमी (लगभग 3 फ़ुट 3 इंच से 8 फ़ुट 2 इंच)।",
 
                 "bmi.err.positive": "कृपया पॉज़िटिव मान दर्ज करें।",
                 "bmi.err.range.weight":
@@ -126,7 +151,7 @@ export const tolgee = Tolgee()
                 "bmi.result.category": "श्रेणी",
                 "bmi.result.healthyRange": "हेल्दी वज़न रेंज",
                 "bmi.disclaimer":
-                    "यह केवल सूचना हेतु है, चिकित्सकीय परामर्श नहीं।",
+                    "20 वर्ष और उससे अधिक आयु के वयस्कों के लिए। BMI केवल स्क्रीनिंग माप है, निदान नहीं; बच्चों और किशोरों के लिए आयु और लिंग के अनुसार पर्सेंटाइल ज़रूरी हैं।",
 
                 "bmi.cat.underweight": "कम वज़न",
                 "bmi.cat.normal": "स्वस्थ",
@@ -141,6 +166,7 @@ export const tolgee = Tolgee()
                 "bmi.history.export": "CSV निर्यात",
                 "bmi.history.clear": "इतिहास साफ़ करें",
                 "bmi.history.delete": "हटाएँ",
+                "bmi.history.storageError": "इस ब्राउज़र में हिस्ट्री सेव नहीं हो सकी। पेज छोड़ने या रीलोड करने पर यह बदलाव मिट जाएगा।",
 
                 "bmi.th.date": "तारीख",
                 "bmi.th.weight": "वज़न",

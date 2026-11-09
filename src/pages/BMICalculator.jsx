@@ -101,10 +101,6 @@ const Actions = styled.div`
   display: flex; gap: 10px; flex-wrap: wrap;
 `;
 
-function clamp(n, min, max) {
-    return Math.max(min, Math.min(max, n));
-}
-
 // --- unit helpers ---
 const LB_TO_KG = 0.45359237;
 const FT_TO_CM = 30.48;
@@ -133,7 +129,7 @@ function fromKg(kg, unit) {
     return val;
 }
 
-// BMI categories (WHO)
+// Standard adult BMI categories.
 function categoryOf(bmi) {
     if (bmi < 18.5) return { key: 'underweight', color: 'rgba(59,130,246,.15)' };       // blue-ish
     if (bmi < 25) return { key: 'normal', color: 'rgba(34,197,94,.15)' };              // green-ish
@@ -175,6 +171,35 @@ function formatDateTimeIST(iso) {
 }
 
 const HISTORY_KEY = 'bmi.history.v1';
+const HISTORY_CATEGORIES = new Set(['underweight', 'normal', 'overweight', 'obese1', 'obese2', 'obese3']);
+
+function readHistory() {
+    try {
+        const stored = JSON.parse(localStorage.getItem(HISTORY_KEY) || '[]');
+        if (!Array.isArray(stored)) return [];
+        return stored.filter((row) =>
+            row && typeof row.id === 'string' && typeof row.ts === 'string' &&
+            Number.isFinite(Date.parse(row.ts)) &&
+            Number.isFinite(row.weight) && ['kg', 'lb'].includes(row.weightUnit) &&
+            row.height && ['cm', 'ftin'].includes(row.height.unit) &&
+            (row.height.unit === 'cm'
+                ? Number.isFinite(row.height.cm)
+                : Number.isFinite(row.height.ft) && Number.isFinite(row.height.inch)) &&
+            Number.isFinite(row.bmi) && HISTORY_CATEGORIES.has(row.category)
+        );
+    } catch {
+        return [];
+    }
+}
+
+function writeHistory(records) {
+    try {
+        localStorage.setItem(HISTORY_KEY, JSON.stringify(records));
+        return true;
+    } catch {
+        return false;
+    }
+}
 
 export default function BMICalculator() {
     const { t } = useTranslate();
@@ -191,13 +216,8 @@ export default function BMICalculator() {
     const [range, setRange] = React.useState(null);               // [low, high] in selected weight unit
 
     const [errors, setErrors] = React.useState({});
-    const [history, setHistory] = React.useState(() => {
-        try {
-            return JSON.parse(localStorage.getItem(HISTORY_KEY) || '[]');
-        } catch {
-            return [];
-        }
-    });
+    const [history, setHistory] = React.useState(readHistory);
+    const [historyStorageError, setHistoryStorageError] = React.useState(false);
 
     // Validate inputs with plausible ranges
     function validate() {
@@ -220,7 +240,8 @@ export default function BMICalculator() {
             const i = Number(inch);
             if (!(f > 0 || i > 0)) errs.height = t('bmi.err.positive');
             else {
-                if (!(f >= 3 && f <= 8)) errs.height = t('bmi.err.range.height');
+                const heightCm = f * FT_TO_CM + i * IN_TO_CM;
+                if (!(heightCm >= 100 && heightCm <= 250)) errs.height = t('bmi.err.range.height');
                 if (!(i >= 0 && i < 12)) errs.heightIn = t('bmi.err.inches');
             }
         }
@@ -241,7 +262,12 @@ export default function BMICalculator() {
 
     function handleCalculate(e) {
         e?.preventDefault();
-        if (!validate()) return;
+        if (!validate()) {
+            setBmi(null);
+            setCategory(null);
+            setRange(null);
+            return;
+        }
 
         const kg = toKg(weight, weightUnit);
         const meters = toMeters({ cm, ft, inch }, heightUnit);
@@ -274,23 +300,19 @@ export default function BMICalculator() {
             category: cat.key
         };
 
-        setHistory(prev => {
-            const next = [entry, ...prev].slice(0, 20); // keep last 20
-            localStorage.setItem(HISTORY_KEY, JSON.stringify(next));
-            return next;
-        });
+        const nextHistory = [entry, ...history].slice(0, 20); // keep last 20
+        setHistory(nextHistory);
+        setHistoryStorageError(!writeHistory(nextHistory));
     }
 
     function deleteRow(id) {
-        setHistory(prev => {
-            const next = prev.filter(r => r.id !== id);
-            localStorage.setItem(HISTORY_KEY, JSON.stringify(next));
-            return next;
-        });
+        const nextHistory = history.filter((row) => row.id !== id);
+        setHistory(nextHistory);
+        setHistoryStorageError(!writeHistory(nextHistory));
     }
 
     function clearHistory() {
-        localStorage.removeItem(HISTORY_KEY);
+        setHistoryStorageError(!writeHistory([]));
         setHistory([]);
     }
 
@@ -324,12 +346,13 @@ export default function BMICalculator() {
     }
 
     // Render height fields
-    const HeightFields = () => {
+    const renderHeightFields = () => {
         if (heightUnit === 'cm') {
             return (
                 <Inline>
                     <Input
                         id="height-cm"
+                        aria-label={t('bmi.label.height')}
                         inputMode="decimal"
                         placeholder={t('bmi.ph.height.cm')}
                         value={cm}
@@ -347,6 +370,7 @@ export default function BMICalculator() {
                 <Input
                     id="height-ft"
                     inputMode="numeric"
+                    aria-label={t('bmi.label.heightFeet')}
                     placeholder={t('bmi.ph.height.ft')}
                     value={ft}
                     onChange={(e) => setFt(e.target.value.replace(',', '.'))}
@@ -357,15 +381,12 @@ export default function BMICalculator() {
                 <Input
                     id="height-in"
                     inputMode="decimal"
+                    aria-label={t('bmi.label.heightInches')}
                     placeholder={t('bmi.ph.height.in')}
                     value={inch}
                     onChange={(e) => {
                         const v = e.target.value.replace(',', '.');
-                        const n = Number(v);
-                        if (Number.isFinite(n)) {
-                            const clamped = clamp(n, 0, 11.9);
-                            setInch(String(clamped));
-                        } else setInch(v);
+                        setInch(v);
                     }}
                     aria-invalid={Boolean(errors.heightIn)}
                     aria-describedby={errors.heightIn ? 'err-height' : undefined}
@@ -435,9 +456,9 @@ export default function BMICalculator() {
                 </Row>
 
                 <Row>
-                    <Label><T keyName="bmi.label.height" /></Label>
-                    <div>
-                        <HeightFields />
+                    <Label as="span" id="height-fields-label"><T keyName="bmi.label.height" /></Label>
+                    <div role="group" aria-labelledby="height-fields-label">
+                        {renderHeightFields()}
                         {(errors.height || errors.heightIn) && (
                             <ErrorText id="err-height">
                                 {errors.height || errors.heightIn}
@@ -479,6 +500,9 @@ export default function BMICalculator() {
 
             <Card>
                 <h3><T keyName="bmi.history.title" /></h3>
+                {historyStorageError && (
+                    <ErrorText role="status"><T keyName="bmi.history.storageError" /></ErrorText>
+                )}
                 {history.length === 0 ? (
                     <p><T keyName="bmi.history.empty" /></p>
                 ) : (

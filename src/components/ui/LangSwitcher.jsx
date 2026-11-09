@@ -18,7 +18,11 @@ export default function LangSwitcher() {
     const handleChange = (e) => {
         const lang = e.target.value;
         tolgee.changeLanguage(lang);
-        localStorage.setItem('lang', lang);
+        try {
+            localStorage.setItem('lang', lang);
+        } catch {
+            // Language changes still apply for this session if storage is unavailable.
+        }
     };
 
     return (

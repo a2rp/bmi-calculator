@@ -41,12 +41,11 @@ const footerLinks = [
 
 export default function App({ toggleTheme, theme }) {
     const location = useLocation();
-    const [menuOpen, setMenuOpen] = useState(false);
+    const [menuState, setMenuState] = useState({ open: false, path: location.pathname });
+    const menuOpen = menuState.open && menuState.path === location.pathname;
     const [showTopButton, setShowTopButton] = useState(false);
 
-    useEffect(() => {
-        setMenuOpen(false);
-    }, [location.pathname]);
+    const closeMenu = () => setMenuState({ open: false, path: location.pathname });
 
     useEffect(() => {
         const handleScroll = () => setShowTopButton(window.scrollY > 360);
@@ -76,10 +75,10 @@ export default function App({ toggleTheme, theme }) {
                 </Styled.Brand>
 
                 <Styled.Nav $open={menuOpen} aria-label="Main navigation">
-                    <Styled.NavLink as={NavLink} to="/" end onClick={() => setMenuOpen(false)}>
+                    <Styled.NavLink as={NavLink} to="/" end onClick={closeMenu}>
                         <T keyName="nav.home" />
                     </Styled.NavLink>
-                    <Styled.NavLink as={NavLink} to="/bmi" onClick={() => setMenuOpen(false)}>
+                    <Styled.NavLink as={NavLink} to="/bmi" onClick={closeMenu}>
                         <T keyName="nav.bmi" />
                     </Styled.NavLink>
                 </Styled.Nav>
@@ -91,7 +90,7 @@ export default function App({ toggleTheme, theme }) {
                     </Styled.ThemeButton>
                     <Styled.MenuButton
                         type="button"
-                        onClick={() => setMenuOpen((open) => !open)}
+                        onClick={() => setMenuState({ open: !menuOpen, path: location.pathname })}
                         aria-label={menuOpen ? 'Close navigation menu' : 'Open navigation menu'}
                         aria-expanded={menuOpen}
                     >

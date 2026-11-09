@@ -1,20 +1,23 @@
 # BMI Calculator
 
-A React and Vite BMI calculator with unit conversion, clear health categories, saved history, CSV export, and English/Hindi language support.
+A responsive React BMI calculator with metric and imperial units, English/Hindi UI, browser-local history, and CSV export.
 
 ![BMI Calculator preview](screenshot.png)
 
 ## Features
 
-- kg/lb weight and cm/ft + in height units
-- BMI result, category, and healthy weight range
-- Input validation with accessible error messages
-- Local calculation history with delete and clear actions
-- CSV export
-- Light/dark theme and English/Hindi switcher
-- Lazy-loaded routes with a pathname-keyed loading state
-- Responsive fixed navigation with a local project logo
-- Icon-only footer links and a floating go-to-top control
+- Calculate BMI with kg/cm or lb/ft + in inputs
+- View an adult BMI category and its reference weight range
+- Store up to 20 calculations in this browser, with delete and clear actions
+- Export saved entries to CSV
+- Switch between light/dark themes and English/Hindi
+- Responsive navigation and GitHub Pages routing fallback
+
+## BMI scope and data
+
+This calculator uses standard adult BMI categories and is intended for adults aged 20 and older. BMI is a screening measure, not a diagnosis. Children and teens need age- and sex-specific BMI percentiles. [CDC adult BMI categories](https://www.cdc.gov/bmi/adult-calculator/bmi-categories.html)
+
+Saved history and preferences stay in the browser's local storage; the app does not send them to a server. Clearing browser storage removes the saved history and preferences.
 
 ## Tech stack
 
@@ -22,12 +25,14 @@ React, Vite, React Router, Styled Components, Tolgee, and React Icons.
 
 ## Run locally
 
+Use Node.js 20.19 or newer.
+
 ```bash
 npm install
 npm run dev
 ```
 
-Build with `npm run build` and deploy to GitHub Pages with `npm run deploy`.
+Create a production build with `npm run build`. Deploy to GitHub Pages with `npm run deploy`.
 
 ## Links
 
@@ -37,7 +42,6 @@ Build with `npm run build` and deploy to GitHub Pages with `npm run deploy`.
 - GitHub: https://github.com/a2rp
 - CodePen: https://codepen.io/ash1198
 - LinkedIn: https://www.linkedin.com/in/aashishranjan
-- Facebook: https://www.facebook.com/theash.ashish/
 - YouTube: https://www.youtube.com/@ashishranjan-ashz?sub_confirmation=1
 - Email: mailto:ash.ranjan09@gmail.com
 
