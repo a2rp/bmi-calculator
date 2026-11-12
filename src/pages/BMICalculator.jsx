@@ -260,6 +260,62 @@ export default function BMICalculator() {
         setErrors({});
     }
 
+    function clearCalculation() {
+        setBmi(null);
+        setCategory(null);
+        setRange(null);
+    }
+
+    function handleWeightUnitChange(e) {
+        const nextUnit = e.target.value;
+        if (weight.trim()) {
+            const value = Number(weight);
+            if (Number.isFinite(value)) {
+                const kg = weightUnit === 'lb' ? value * LB_TO_KG : value;
+                const converted = nextUnit === 'lb' ? kg / LB_TO_KG : kg;
+                setWeight(String(Number(converted.toFixed(2))));
+            }
+        }
+        setWeightUnit(nextUnit);
+        clearCalculation();
+        setErrors({});
+    }
+
+    function handleHeightUnitChange(e) {
+        const nextUnit = e.target.value;
+        if (nextUnit !== heightUnit) {
+            if (nextUnit === 'ftin') {
+                const value = Number(cm);
+                if (cm.trim() && Number.isFinite(value)) {
+                    const totalInches = value / IN_TO_CM;
+                    let feet = Math.floor(totalInches / 12);
+                    let inches = Number((totalInches - feet * 12).toFixed(1));
+                    if (inches >= 12) {
+                        feet += 1;
+                        inches = 0;
+                    }
+                    setFt(String(feet));
+                    setInch(String(inches));
+                } else {
+                    setFt('');
+                    setInch('');
+                }
+            } else {
+                const feet = Number(ft);
+                const inches = Number(inch);
+                if ((ft.trim() || inch.trim()) && Number.isFinite(feet) && Number.isFinite(inches)) {
+                    const value = feet * FT_TO_CM + inches * IN_TO_CM;
+                    setCm(String(Number(value.toFixed(1))));
+                } else {
+                    setCm('');
+                }
+            }
+        }
+        setHeightUnit(nextUnit);
+        clearCalculation();
+        setErrors({});
+    }
+
     function handleCalculate(e) {
         e?.preventDefault();
         if (!validate()) {
@@ -277,7 +333,7 @@ export default function BMICalculator() {
         }
         const bmiVal = kg / (meters * meters);
         const bmiRounded = Number(bmiVal.toFixed(2));
-        const cat = categoryOf(bmiRounded);
+        const cat = categoryOf(bmiVal);
 
         const [lowKg, highKg] = healthyWeightRangeKg(meters);
         const lowDisplay = fromKg(lowKg, weightUnit);
@@ -356,7 +412,11 @@ export default function BMICalculator() {
                         inputMode="decimal"
                         placeholder={t('bmi.ph.height.cm')}
                         value={cm}
-                        onChange={(e) => setCm(e.target.value.replace(',', '.'))}
+                        onChange={(e) => {
+                            setCm(e.target.value.replace(',', '.'));
+                            clearCalculation();
+                            setErrors((prev) => ({ ...prev, height: '', generic: '' }));
+                        }}
                         aria-invalid={Boolean(errors.height)}
                         aria-describedby={errors.height ? 'err-height' : undefined}
                     />
@@ -373,7 +433,11 @@ export default function BMICalculator() {
                     aria-label={t('bmi.label.heightFeet')}
                     placeholder={t('bmi.ph.height.ft')}
                     value={ft}
-                    onChange={(e) => setFt(e.target.value.replace(',', '.'))}
+                    onChange={(e) => {
+                        setFt(e.target.value.replace(',', '.'));
+                        clearCalculation();
+                        setErrors((prev) => ({ ...prev, height: '', generic: '' }));
+                    }}
                     aria-invalid={Boolean(errors.height)}
                     aria-describedby={(errors.height || errors.heightIn) ? 'err-height' : undefined}
                 />
@@ -387,6 +451,8 @@ export default function BMICalculator() {
                     onChange={(e) => {
                         const v = e.target.value.replace(',', '.');
                         setInch(v);
+                        clearCalculation();
+                        setErrors((prev) => ({ ...prev, height: '', heightIn: '', generic: '' }));
                     }}
                     aria-invalid={Boolean(errors.heightIn)}
                     aria-describedby={errors.heightIn ? 'err-height' : undefined}
@@ -413,7 +479,7 @@ export default function BMICalculator() {
                         <Select
                             id="unit-weight"
                             value={weightUnit}
-                            onChange={(e) => setWeightUnit(e.target.value)}
+                            onChange={handleWeightUnitChange}
                             aria-label={t('bmi.label.weightUnit')}
                         >
                             <option value="kg">{t('bmi.unit.kg')}</option>
@@ -430,7 +496,11 @@ export default function BMICalculator() {
                             inputMode="decimal"
                             placeholder={t('bmi.ph.weight')}
                             value={weight}
-                            onChange={(e) => setWeight(e.target.value.replace(',', '.'))}
+                            onChange={(e) => {
+                                setWeight(e.target.value.replace(',', '.'));
+                                clearCalculation();
+                                setErrors((prev) => ({ ...prev, weight: '', generic: '' }));
+                            }}
                             aria-invalid={Boolean(errors.weight)}
                             aria-describedby={errors.weight ? 'err-weight' : undefined}
                         />
@@ -446,7 +516,7 @@ export default function BMICalculator() {
                         <Select
                             id="unit-height"
                             value={heightUnit}
-                            onChange={(e) => setHeightUnit(e.target.value)}
+                            onChange={handleHeightUnitChange}
                             aria-label={t('bmi.label.heightUnit')}
                         >
                             <option value="cm">{t('bmi.unit.cm')}</option>
